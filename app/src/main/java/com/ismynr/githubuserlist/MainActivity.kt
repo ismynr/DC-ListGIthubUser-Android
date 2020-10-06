@@ -1,11 +1,11 @@
 package com.ismynr.githubuserlist
 
+import android.content.Intent
 import android.content.res.TypedArray
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.AdapterView
 import android.widget.ListView
-import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +31,22 @@ class MainActivity : AppCompatActivity() {
         prepare()
         addItem()
 
+        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            val user = User(
+                users[position].name,
+                users[position].username,
+                users[position].followers,
+                users[position].following,
+                users[position].location,
+                users[position].repository,
+                users[position].company,
+                users[position].avatar
+            )
+
+            val moveWithObjectIntent = Intent(this@MainActivity, UserDetailActivity::class.java)
+            moveWithObjectIntent.putExtra(UserDetailActivity.EXTRA_USER, user)
+            startActivity(moveWithObjectIntent)
+        }
     }
 
     private fun prepare(){

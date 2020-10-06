@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
 
         <RelativeLayout
             android:layout_width="90dp"
@@ -36,7 +38,7 @@
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Github Name"
+                android:text="@string/github_name"
                 android:textColor="@color/colorPrimary"
                 android:textSize="17sp"
                 android:layout_marginBottom="8dp"
@@ -57,7 +59,7 @@
                     android:paddingStart="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Github Username"
+                    android:text="@string/github_username"
                     android:layout_marginEnd="13dp"
                     android:textSize="13sp"/>
 
@@ -65,13 +67,10 @@
                     android:id="@+id/tv_foll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Followers/Following"
+                    android:text="@string/followers_following"
                     android:textSize="13sp"/>
             </LinearLayout>
-
         </LinearLayout>
     </LinearLayout>
-
-
 
 </RelativeLayout>
