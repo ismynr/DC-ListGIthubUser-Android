@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Github User</string>
     <string name="github_name">Github Name</string>
-    <string name="github_username">Github Username</string>
+    <string name="github_username">\@%s</string>
     <string name="github_company">Github Company</string>
-    <string name="followers_1000">Followers(1000)</string>
-    <string name="following_100">Following(100)</string>
-    <string name="repositories_100">Repositories(100)</string>
+    <string name="followers_1000">%s Followers</string>
+    <string name="following_100">%s Following</string>
+    <string name="repositories_100">: %s</string>
     <string name="github_location">Github Location</string>
     <string name="followers_following">Followers Following</string>
     <string name="aplikasi_github_user">APLIKASI GITHUB USER</string>
