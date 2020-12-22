@@ -1,35 +1,33 @@
 package com.ismynr.githubuserlist.viewModel
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ismynr.githubuserlist.model.Following
 import com.ismynr.githubuserlist.model.User
-import com.ismynr.githubuserlist.view.MainActivity
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.Exception
-import java.text.DecimalFormat
 
-class UserViewModel : ViewModel(){
+class FollowingViewModel : ViewModel() {
 
-    private val listMutableUsers = MutableLiveData<ArrayList<User>>()
-    private val listUsers = ArrayList<User>()
+    private val listMutableUsers = MutableLiveData<ArrayList<Following>>()
+    private val listUsers = ArrayList<Following>()
 
-    fun getListUsers(): LiveData<ArrayList<User>> {
+    fun getListUsers(): LiveData<ArrayList<Following>> {
         return listMutableUsers
     }
 
-    fun getAllUserApi(context: Context) {
+    fun getAllUserApi(context: Context, id: String = "") {
         val httpClient = AsyncHttpClient()
         httpClient.addHeader("Authorization", "df8e027df76a7b2d9c94edf90bdd48e804531cf9")
         httpClient.addHeader("User-Agent", "request")
-        val urlClient = "https://api.github.com/users?per_page=10"
+        val urlClient = "https://api.github.com/users/$id/following?per_page=10"
         httpClient.get(urlClient, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<out Header>?, responseBody: ByteArray?) {
                 val result = responseBody?.let { String(it) }
@@ -60,44 +58,7 @@ class UserViewModel : ViewModel(){
         })
     }
 
-    fun getByQueryUserApi(query: String, context: Context) {
-        val httpClient = AsyncHttpClient()
-        httpClient.addHeader("Authorization", "df8e027df76a7b2d9c94edf90bdd48e804531cf9")
-        httpClient.addHeader("User-Agent", "request")
-        val urlClient = "https://api.github.com/search/users?q=$query&per_page=5"
-
-        httpClient.get(urlClient, object : AsyncHttpResponseHandler() {
-            override fun onSuccess(statusCode: Int, headers: Array<out Header>?, responseBody: ByteArray?) {
-                val result = responseBody?.let { String(it) }
-                try {
-                    listUsers.clear()
-                    val jsonArray = JSONObject(result!!)
-                    val item = jsonArray.getJSONArray("items")
-                    for (i in 0 until item.length()) {
-                        val jsonObject = item.getJSONObject(i)
-                        val username = jsonObject.getString("login")
-                        getDataGitDetail(username, context)
-                    }
-                } catch (e: Exception) {
-                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-                    e.printStackTrace()
-                }
-            }
-
-            override fun onFailure(statusCode: Int, headers: Array<out Header>?, responseBody: ByteArray?, error: Throwable?) {
-                val errorMessage = when (statusCode) {
-                    401 -> "$statusCode : Bad Request"
-                    403 -> "$statusCode : Forbidden"
-                    404 -> "$statusCode : Not Found"
-                    else -> "$statusCode : ${error?.message}"
-                }
-                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-            }
-
-        })
-    }
-
-    private fun getDataGitDetail(usernameLogin: String, context: Context) {
+    fun getDataGitDetail(usernameLogin: String, context: Context) {
         val httpClient = AsyncHttpClient()
         httpClient.addHeader("Authorization", "df8e027df76a7b2d9c94edf90bdd48e804531cf9")
         httpClient.addHeader("User-Agent", "request")
@@ -109,7 +70,7 @@ class UserViewModel : ViewModel(){
 
                 try {
                     val jsonObject = JSONObject(result!!)
-                    val usersData = User()
+                    val usersData = Following()
 
                     usersData.username = jsonObject.getString("login")
                     usersData.name = jsonObject.getString("name")
@@ -140,6 +101,4 @@ class UserViewModel : ViewModel(){
 
         })
     }
-
-
 }

@@ -1,6 +1,5 @@
 package com.ismynr.githubuserlist.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,20 +7,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.ismynr.githubuserlist.R
+import com.ismynr.githubuserlist.model.Following
 import com.ismynr.githubuserlist.model.User
-import com.ismynr.githubuserlist.view.DetailActivity
 import kotlinx.android.synthetic.main.item_user.view.*
 
-class ListUserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
+class ListUserFollowingAdapter(private val listUser: ArrayList<Following>) : RecyclerView.Adapter<ListUserFollowingAdapter.ListViewHolder>() {
 
-    fun setData(items: ArrayList<User>) {
+    fun setData(items: ArrayList<Following>) {
         listUser.clear()
         notifyDataSetChanged()
         listUser.addAll(items)
     }
 
-    inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(user: User) {
+    inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)   {
+        fun bind(user: Following) {
             with(itemView){
                 Glide.with(itemView.context)
                     .load(user.avatar)
@@ -46,24 +45,5 @@ class ListUserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.bind(listUser[position])
-
-        val data = listUser[position]
-        holder.itemView.setOnClickListener {
-            val userIntent = User(
-                data.name,
-                data.username,
-                data.followers,
-                data.following,
-                data.location,
-                data.repository,
-                data.company,
-                data.avatar
-            )
-
-            val mIntent = Intent(it.context, DetailActivity::class.java)
-            mIntent.putExtra(DetailActivity.EXTRA_DETAIL, userIntent)
-            it.context.startActivity(mIntent)
-        }
     }
-
 }
