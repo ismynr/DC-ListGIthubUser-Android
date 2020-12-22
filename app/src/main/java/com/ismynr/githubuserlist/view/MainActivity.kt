@@ -87,14 +87,20 @@ class MainActivity : AppCompatActivity() {
                 if (query!!.isNotEmpty()) {
                     mainRecycleView()
                     mainViewModel(query)
-                } else {
-                    return false
+                    searchView.clearFocus()
+                    return true
                 }
-                return true
+                searchView.clearFocus()
+                return false
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
-                return true
+                if (query!!.isEmpty()){
+                    mainRecycleView()
+                    mainViewModel()
+                    return true
+                }
+                return false
             }
         })
         return true

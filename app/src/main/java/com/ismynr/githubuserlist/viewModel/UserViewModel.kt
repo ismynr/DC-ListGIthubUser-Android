@@ -27,7 +27,7 @@ class UserViewModel : ViewModel(){
 
     fun getAllUserApi(context: Context) {
         val httpClient = AsyncHttpClient()
-        httpClient.addHeader("Authorization", "df8e027df76a7b2d9c94edf90bdd48e804531cf9")
+        httpClient.addHeader("Authorization", "277ad669a6f57678dda4a74ebfb79786d097328d")
         httpClient.addHeader("User-Agent", "request")
         val urlClient = "https://api.github.com/users?per_page=10"
         httpClient.get(urlClient, object : AsyncHttpResponseHandler() {
@@ -35,6 +35,7 @@ class UserViewModel : ViewModel(){
                 val result = responseBody?.let { String(it) }
 
                 try {
+                    listUsers.clear()
                     val jsonArray = JSONArray(result)
                     for (i in 0 until jsonArray.length()) {
                         val jsonObject = jsonArray.getJSONObject(i)
@@ -62,7 +63,7 @@ class UserViewModel : ViewModel(){
 
     fun getByQueryUserApi(query: String, context: Context) {
         val httpClient = AsyncHttpClient()
-        httpClient.addHeader("Authorization", "df8e027df76a7b2d9c94edf90bdd48e804531cf9")
+        httpClient.addHeader("Authorization", "277ad669a6f57678dda4a74ebfb79786d097328d")
         httpClient.addHeader("User-Agent", "request")
         val urlClient = "https://api.github.com/search/users?q=$query&per_page=5"
 
@@ -99,7 +100,7 @@ class UserViewModel : ViewModel(){
 
     private fun getDataGitDetail(usernameLogin: String, context: Context) {
         val httpClient = AsyncHttpClient()
-        httpClient.addHeader("Authorization", "df8e027df76a7b2d9c94edf90bdd48e804531cf9")
+        httpClient.addHeader("Authorization", "277ad669a6f57678dda4a74ebfb79786d097328d")
         httpClient.addHeader("User-Agent", "request")
         val urlClient = "https://api.github.com/users/$usernameLogin"
 

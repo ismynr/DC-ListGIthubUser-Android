@@ -25,7 +25,7 @@ class FollowingViewModel : ViewModel() {
 
     fun getAllUserApi(context: Context, id: String = "") {
         val httpClient = AsyncHttpClient()
-        httpClient.addHeader("Authorization", "df8e027df76a7b2d9c94edf90bdd48e804531cf9")
+        httpClient.addHeader("Authorization", "277ad669a6f57678dda4a74ebfb79786d097328d")
         httpClient.addHeader("User-Agent", "request")
         val urlClient = "https://api.github.com/users/$id/following?per_page=10"
         httpClient.get(urlClient, object : AsyncHttpResponseHandler() {
@@ -60,7 +60,7 @@ class FollowingViewModel : ViewModel() {
 
     fun getDataGitDetail(usernameLogin: String, context: Context) {
         val httpClient = AsyncHttpClient()
-        httpClient.addHeader("Authorization", "df8e027df76a7b2d9c94edf90bdd48e804531cf9")
+        httpClient.addHeader("Authorization", "277ad669a6f57678dda4a74ebfb79786d097328d")
         httpClient.addHeader("User-Agent", "request")
         val urlClient = "https://api.github.com/users/$usernameLogin"
 
