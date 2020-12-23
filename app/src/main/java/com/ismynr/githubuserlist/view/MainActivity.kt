@@ -18,6 +18,14 @@ import com.ismynr.githubuserlist.model.User
 import com.ismynr.githubuserlist.viewModel.UserViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import android.app.SearchManager;
+import android.util.Log
+import com.loopj.android.http.AsyncHttpClient
+import com.loopj.android.http.AsyncHttpResponseHandler
+import cz.msebera.android.httpclient.Header
+import org.json.JSONObject
+import java.lang.Exception
+import java.sql.Time
+import java.sql.Timestamp
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         listUserAdapter = ListUserAdapter(listUser)
 
         mainRecycleView()
-
         mainViewModel()
     }
 
@@ -46,14 +53,10 @@ class MainActivity : AppCompatActivity() {
         rv_users.setHasFixedSize(true)
     }
 
-    fun mainViewModel(query: String = ""){
+    fun mainViewModel(){
         userViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(UserViewModel::class.java)
-        if(query.isNotEmpty()){
-            userViewModel.getByQueryUserApi(query, applicationContext)
-        }else{
-            userViewModel.getAllUserApi(applicationContext)
-        }
         showLoading(true)
+        userViewModel.getAllUserApi(applicationContext)
         userViewModel.getListUsers().observe(this, Observer { listUsers ->
             if (listUsers != null) {
                 listUserAdapter.setData(listUsers)
@@ -62,6 +65,19 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    fun mainViewModelSearch(query: String = ""){
+        showLoading(true)
+        if(query.isNotEmpty()){
+            userViewModel.getByQueryUserApi(query, applicationContext)
+        }else{
+            userViewModel.getAllUserApi(applicationContext)
+        }
+        userViewModel.getListUsers().observe(this@MainActivity, Observer { listUsers ->
+            if (listUsers != null) {
+                listUserAdapter.setData(listUsers)
+            }
+        })
+    }
     // LOADING MAIN
     private fun showLoading(state: Boolean) {
         if (state) {
@@ -85,9 +101,9 @@ class MainActivity : AppCompatActivity() {
         searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query!!.isNotEmpty()) {
-                    mainRecycleView()
-                    mainViewModel(query)
                     searchView.clearFocus()
+                    mainRecycleView()
+                    mainViewModelSearch(query)
                     return true
                 }
                 searchView.clearFocus()
@@ -97,7 +113,7 @@ class MainActivity : AppCompatActivity() {
             override fun onQueryTextChange(query: String?): Boolean {
                 if (query!!.isEmpty()){
                     mainRecycleView()
-                    mainViewModel()
+                    mainViewModelSearch()
                     return true
                 }
                 return false

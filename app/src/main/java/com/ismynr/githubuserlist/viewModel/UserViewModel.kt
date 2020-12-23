@@ -98,7 +98,7 @@ class UserViewModel : ViewModel(){
         })
     }
 
-    private fun getDataGitDetail(usernameLogin: String, context: Context) {
+    fun getDataGitDetail(usernameLogin: String, context: Context) {
         val httpClient = AsyncHttpClient()
         httpClient.addHeader("Authorization", "277ad669a6f57678dda4a74ebfb79786d097328d")
         httpClient.addHeader("User-Agent", "request")
