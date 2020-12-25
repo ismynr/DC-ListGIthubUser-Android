@@ -12,7 +12,7 @@ import com.ismynr.githubuserlist.model.User
 import com.ismynr.githubuserlist.view.DetailActivity
 import kotlinx.android.synthetic.main.item_user.view.*
 
-class ListUserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
+class ListUserAdapter(private var listUser: ArrayList<User>) : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
 
     fun setData(items: ArrayList<User>) {
         listUser.clear()
@@ -49,19 +49,8 @@ class ListUserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adap
 
         val data = listUser[position]
         holder.itemView.setOnClickListener {
-            val userIntent = User(
-                data.name,
-                data.username,
-                data.followers,
-                data.following,
-                data.location,
-                data.repository,
-                data.company,
-                data.avatar
-            )
-
             val mIntent = Intent(it.context, DetailActivity::class.java)
-            mIntent.putExtra(DetailActivity.EXTRA_DETAIL, userIntent)
+            mIntent.putExtra(DetailActivity.EXTRA_DETAIL, data)
             it.context.startActivity(mIntent)
         }
     }
