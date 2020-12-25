@@ -55,7 +55,6 @@ class FollowersViewModel: ViewModel() {
         val urlClient = "https://api.github.com/users/$usernameLogin"
         client.get(urlClient, object : AsyncHttpResponseHandler() {
             override fun onSuccess(statusCode: Int, headers: Array<out Header>?, responseBody: ByteArray) {
-                val result = responseBody?.let { String(it) }
                 try {
                     val jsonObject = JSONObject(String(responseBody))
                     val usersData = Follower()

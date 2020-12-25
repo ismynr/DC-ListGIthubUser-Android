@@ -14,16 +14,19 @@ import com.ismynr.githubuserlist.model.User
 import com.ismynr.githubuserlist.viewModel.UserViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import android.app.SearchManager;
+import com.ismynr.githubuserlist.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private var listUser: ArrayList<User> = ArrayList()
     private lateinit var listUserAdapter: ListUserAdapter
     private lateinit var userViewModel: UserViewModel
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         listUserAdapter = ListUserAdapter(listUser)
         mainRecycleView()
@@ -63,14 +66,14 @@ class MainActivity : AppCompatActivity() {
 
     // LOADING MAIN
     private fun showLoading(state: Boolean) {
-        if (state) loadingProgress.visibility = View.VISIBLE
-        else loadingProgress.visibility = View.INVISIBLE
+        if (state) binding.loadingProgress.visibility = View.VISIBLE
+        else binding.loadingProgress.visibility = View.INVISIBLE
     }
 
     private fun mainRecycleView(){
-        rv_users.layoutManager = LinearLayoutManager(this)
-        rv_users.adapter = listUserAdapter
-        rv_users.setHasFixedSize(true)
+        binding.rvUsers.layoutManager = LinearLayoutManager(this)
+        binding.rvUsers.adapter = listUserAdapter
+        binding.rvUsers.setHasFixedSize(true)
     }
 
     private fun mainViewModel(){
