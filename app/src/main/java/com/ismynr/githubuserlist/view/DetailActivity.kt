@@ -41,18 +41,20 @@ class DetailActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun setDetailData() {
         val user = intent.getParcelableExtra<User>(EXTRA_DETAIL) as User
-        Glide.with(this)
-            .load(user.avatar)
-            .apply(RequestOptions().override(100, 100))
-            .into(binding.imgAvatar)
+        with(binding){
+            Glide.with(this@DetailActivity)
+                .load(user.avatar)
+                .apply(RequestOptions().override(100, 100))
+                .into(imgAvatar)
 
-        binding.tvName.text = user.name
-        binding.tvUsername.text = getString(R.string.github_username, user.username)
-        binding.tvCompany.text = user.company
-        binding.tvLocation.text = user.location
-        binding.tvFollowers.text = user.followers + " Followers"
-        binding.tvRepositories.text = ": " + user.repository
-        binding.tvFollowing.text = user.following + " Following"
+            tvName.text = user.name
+            tvUsername.text = getString(R.string.github_username, user.username)
+            tvCompany.text = user.company
+            tvLocation.text = user.location
+            tvFollowers.text = user.followers + " Followers"
+            tvRepositories.text = ": " + user.repository
+            tvFollowing.text = user.following + " Following"
+        }
     }
 
     private fun viewPagerConfig() {

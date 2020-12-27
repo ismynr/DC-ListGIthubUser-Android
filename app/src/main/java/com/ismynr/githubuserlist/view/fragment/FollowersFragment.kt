@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ismynr.githubuserlist.adapter.ListUserFollowersAdapter
+import com.ismynr.githubuserlist.adapter.FollowersAdapter
 import com.ismynr.githubuserlist.databinding.FragmentFollowersBinding
 import com.ismynr.githubuserlist.model.Follower
 import com.ismynr.githubuserlist.model.User
@@ -21,11 +21,11 @@ class FollowersFragment : Fragment() {
     }
 
     private val listUser: ArrayList<Follower> = ArrayList()
-    private lateinit var listUserAdapter: ListUserFollowersAdapter
+    private lateinit var adapter: FollowersAdapter
     private lateinit var followerViewModel: FollowersViewModel
     private lateinit var binding: FragmentFollowersBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentFollowersBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,30 +33,28 @@ class FollowersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        listUserAdapter = ListUserFollowersAdapter(listUser)
+        adapter = FollowersAdapter(listUser)
         binding.rvUsersFollowers.layoutManager = LinearLayoutManager(activity)
-        binding.rvUsersFollowers.adapter = listUserAdapter
+        binding.rvUsersFollowers.adapter = adapter
         binding.rvUsersFollowers.setHasFixedSize(true)
-        followerViewModel = ViewModelProvider(activity!!, ViewModelProvider.NewInstanceFactory()).get(FollowersViewModel::class.java)
+        followerViewModel = ViewModelProvider(
+            this, FollowersViewModel.VMFactory(activity!!.applicationContext)
+        ).get(FollowersViewModel::class.java)
 
         val dataUser = activity!!.intent.getParcelableExtra<User>(EXTRA_DETAIL) as User
-        followerViewModel.getAllUserApi(activity!!.applicationContext, dataUser.username.toString())
+        followerViewModel.getAllUserApi(dataUser.username.toString())
 
         showLoading(true)
         followerViewModel.getListUsers().observe(activity!!, Observer { listUsers ->
             if (listUsers != null) {
-                listUserAdapter.setData(listUsers)
+                adapter.setData(listUsers)
                 showLoading(false)
             }
         })
     }
 
     private fun showLoading(state: Boolean) {
-        if (state) {
-            binding.loadingFollowers.visibility = View.VISIBLE
-        } else {
-            binding.loadingFollowers.visibility = View.INVISIBLE
-        }
+        if (state) binding.loadingFollowers.visibility = View.VISIBLE
+        else binding.loadingFollowers.visibility = View.INVISIBLE
     }
-
 }

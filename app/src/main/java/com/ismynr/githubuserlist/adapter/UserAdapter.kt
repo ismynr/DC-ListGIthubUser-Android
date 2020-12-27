@@ -3,6 +3,7 @@ package com.ismynr.githubuserlist.adapter
 import android.content.Intent
 import com.ismynr.githubuserlist.databinding.ItemUserBinding
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -11,7 +12,7 @@ import com.ismynr.githubuserlist.R
 import com.ismynr.githubuserlist.model.User
 import com.ismynr.githubuserlist.view.DetailActivity
 
-class ListUserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adapter<ListUserAdapter.ListViewHolder>() {
+class UserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     fun setData(items: ArrayList<User>) {
         listUser.clear()
@@ -19,12 +20,12 @@ class ListUserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adap
         listUser.addAll(items)
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ListViewHolder {
-        val binding = ItemUserBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-        return ListViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false)
+        return UserViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.bind(listUser[position])
 
         val data = listUser[position]
@@ -37,14 +38,14 @@ class ListUserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adap
 
     override fun getItemCount(): Int = listUser.size
 
-    inner class ListViewHolder(private val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = ItemUserBinding.bind(itemView)
         fun bind(user: User) {
             with(binding){
                 Glide.with(itemView.context)
                     .load(user.avatar)
                     .apply(RequestOptions().override(72, 72))
                     .into(imgAvatar)
-
                 tvName.text = user.name
                 tvUsername.text = itemView.context.getString(R.string.github_username, user.username)
                 tvRepositories.text = itemView.context.getString(R.string.repositories_100, user.repository)

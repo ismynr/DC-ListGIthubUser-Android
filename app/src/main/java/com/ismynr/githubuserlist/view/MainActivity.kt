@@ -1,25 +1,25 @@
 package com.ismynr.githubuserlist.view
 
+import android.app.SearchManager
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ismynr.githubuserlist.adapter.ListUserAdapter
 import com.ismynr.githubuserlist.R
+import com.ismynr.githubuserlist.adapter.UserAdapter
+import com.ismynr.githubuserlist.databinding.ActivityMainBinding
 import com.ismynr.githubuserlist.model.User
 import com.ismynr.githubuserlist.viewModel.UserViewModel
-import kotlinx.android.synthetic.main.activity_main.*
-import android.app.SearchManager;
-import com.ismynr.githubuserlist.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
     private var listUser: ArrayList<User> = ArrayList()
-    private lateinit var listUserAdapter: ListUserAdapter
+    private lateinit var userAdapter: UserAdapter
     private lateinit var userViewModel: UserViewModel
     private lateinit var binding: ActivityMainBinding
 
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        listUserAdapter = ListUserAdapter(listUser)
+        userAdapter = UserAdapter(listUser)
         mainRecycleView()
         mainViewModel()
     }
@@ -50,39 +50,28 @@ class MainActivity : AppCompatActivity() {
                     mainViewModelSearch(query)
                     return true
                 }
-                searchView.clearFocus()
-                return false
+                searchView.clearFocus(); return false
             }
             override fun onQueryTextChange(query: String): Boolean {
-                if (query.isEmpty()){
-                    mainViewModelSearch()
-                    return true
-                }
+                if (query.isEmpty()) { mainViewModelSearch(); return true }
                 return false
             }
-        })
-        return true
-    }
-
-    // LOADING MAIN
-    private fun showLoading(state: Boolean) {
-        if (state) binding.loadingProgress.visibility = View.VISIBLE
-        else binding.loadingProgress.visibility = View.INVISIBLE
+        }); return true
     }
 
     private fun mainRecycleView(){
         binding.rvUsers.layoutManager = LinearLayoutManager(this)
-        binding.rvUsers.adapter = listUserAdapter
+        binding.rvUsers.adapter = userAdapter
         binding.rvUsers.setHasFixedSize(true)
     }
 
     private fun mainViewModel(){
-        userViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(UserViewModel::class.java)
+        userViewModel = ViewModelProvider(this, UserViewModel.VMFactory(applicationContext)).get(UserViewModel::class.java)
         showLoading(true)
-        userViewModel.getAllUserApi(applicationContext)
+        userViewModel.getAllUserApi()
         userViewModel.getListUsers().observe(this, Observer { listUsers ->
             if (listUsers != null) {
-                listUserAdapter.setData(listUsers)
+                userAdapter.setData(listUsers)
                 showLoading(false)
             }
         })
@@ -90,12 +79,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun mainViewModelSearch(query: String = ""){
         showLoading(true)
-        if(query.isNotEmpty()) userViewModel.getByQueryUserApi(query, applicationContext)
-        else userViewModel.getAllUserApi(applicationContext)
+        if(query.isNotEmpty()) userViewModel.getByQueryUserApi(query)
+        else userViewModel.getAllUserApi()
         userViewModel.getListUsers().observe(this, Observer { listUsers ->
-            if (listUsers != null) {
-                listUserAdapter.setData(listUsers)
-            }
+            if (listUsers != null) { userAdapter.setData(listUsers) }
         })
+    }
+
+    // LOADING MAIN
+    private fun showLoading(state: Boolean) {
+        if (state) binding.loadingProgress.visibility = View.VISIBLE
+        else binding.loadingProgress.visibility = View.INVISIBLE
     }
 }

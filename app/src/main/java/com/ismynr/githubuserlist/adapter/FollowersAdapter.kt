@@ -1,35 +1,37 @@
 package com.ismynr.githubuserlist.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.ismynr.githubuserlist.R
 import com.ismynr.githubuserlist.databinding.ItemUserBinding
-import com.ismynr.githubuserlist.model.Following
+import com.ismynr.githubuserlist.model.Follower
 
-class ListUserFollowingAdapter(private val listUser: ArrayList<Following>) : RecyclerView.Adapter<ListUserFollowingAdapter.ListViewHolder>() {
+class FollowersAdapter(private val listUser: ArrayList<Follower>) : RecyclerView.Adapter<FollowersAdapter.FollowersViewHolder>(){
 
-    fun setData(items: ArrayList<Following>) {
+    fun setData(items: ArrayList<Follower>) {
         listUser.clear()
         notifyDataSetChanged()
         listUser.addAll(items)
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ListViewHolder {
-        val binding = ItemUserBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-        return ListViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowersViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false)
+        return FollowersViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FollowersViewHolder, position: Int) {
         holder.bind(listUser[position])
     }
 
     override fun getItemCount(): Int = listUser.size
 
-    inner class ListViewHolder(private val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root)   {
-        fun bind(user: Following) {
+    inner class FollowersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)  {
+        private val binding = ItemUserBinding.bind(itemView)
+        fun bind(user: Follower) {
             with(binding){
                 Glide.with(itemView.context)
                     .load(user.avatar)
