@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ismynr.githubuserlist">
 
+    <permission android:name="com.ismynr.githubuserlist.READ_DATABASE" android:protectionLevel="normal" />
+    <permission android:name="com.ismynr.githubuserlist.WRITE_DATABASE" android:protectionLevel="normal" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
