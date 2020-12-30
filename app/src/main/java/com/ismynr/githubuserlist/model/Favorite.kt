@@ -1,5 +1,10 @@
 package com.ismynr.githubuserlist.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Suppress("DEPRECATED_ANNOTATION")
+@Parcelize
 data class Favorite(
     var name: String? = null,
     var username: String? = null,
@@ -9,5 +14,5 @@ data class Favorite(
     var repository: String? = null,
     var company: String? = null,
     var avatar: String? = null,
-    var isFav: Boolean? = null
-)
+    var isFav: String? = null
+) : Parcelable

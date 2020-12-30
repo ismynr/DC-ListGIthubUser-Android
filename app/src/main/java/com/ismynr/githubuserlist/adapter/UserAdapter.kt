@@ -31,6 +31,7 @@ class UserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adapter<
         val data = listUser[position]
         holder.itemView.setOnClickListener {
             val mIntent = Intent(it.context, DetailActivity::class.java)
+            mIntent.putExtra(DetailActivity.FROM_ACTIVITY, it.context.javaClass.simpleName)
             mIntent.putExtra(DetailActivity.EXTRA_DETAIL, data)
             it.context.startActivity(mIntent)
         }

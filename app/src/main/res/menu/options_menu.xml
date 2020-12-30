@@ -10,4 +10,11 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom" />
 
+    <group android:menuCategory="container">
+        <item android:id="@+id/favorite_menu"
+            android:title="@string/favorite" />
+        <item android:id="@+id/language_menu"
+            android:title="@string/language" />
+    </group>
+
 </menu>

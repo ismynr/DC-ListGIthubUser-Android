@@ -10,8 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ismynr.githubuserlist.adapter.FollowingAdapter
 import com.ismynr.githubuserlist.databinding.FragmentFollowingBinding
+import com.ismynr.githubuserlist.model.Favorite
 import com.ismynr.githubuserlist.model.Following
 import com.ismynr.githubuserlist.model.User
+import com.ismynr.githubuserlist.view.DetailActivity
 import com.ismynr.githubuserlist.viewModel.FollowingViewModel
 
 class FollowingFragment : Fragment() {
@@ -38,14 +40,20 @@ class FollowingFragment : Fragment() {
         binding.rvUsersFollowing.setHasFixedSize(true)
         binding.rvUsersFollowing.adapter = adapter
         followingViewModel = ViewModelProvider(
-            this, FollowingViewModel.VMFactory(activity!!.applicationContext)
+            this, FollowingViewModel.VMFactory(requireActivity().applicationContext)
         ).get(FollowingViewModel::class.java)
 
-        val dataUser = activity!!.intent.getParcelableExtra<User>(EXTRA_DETAIL) as User
-        followingViewModel.getAllUserApi(dataUser.username.toString())
+        val mIntent = requireActivity().intent
+        if(mIntent.getStringExtra(DetailActivity.FROM_ACTIVITY) == "FavoriteActivity"){
+            val dataUser = mIntent.getParcelableExtra<Favorite>(EXTRA_DETAIL)
+            followingViewModel.getAllUserApi(dataUser!!.username.toString())
+        }else {
+            val dataUser = mIntent.getParcelableExtra<User>(EXTRA_DETAIL)
+            followingViewModel.getAllUserApi(dataUser!!.username.toString())
+        }
 
         showLoading(true)
-        followingViewModel.getListUsers().observe(activity!!, Observer { listUsers ->
+        followingViewModel.getListUsers().observe(requireActivity(), Observer { listUsers ->
             if (listUsers != null) {
                 adapter.setData(listUsers)
                 showLoading(false)

@@ -10,8 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ismynr.githubuserlist.adapter.FollowersAdapter
 import com.ismynr.githubuserlist.databinding.FragmentFollowersBinding
+import com.ismynr.githubuserlist.model.Favorite
 import com.ismynr.githubuserlist.model.Follower
 import com.ismynr.githubuserlist.model.User
+import com.ismynr.githubuserlist.view.DetailActivity
 import com.ismynr.githubuserlist.viewModel.FollowersViewModel
 
 class FollowersFragment : Fragment() {
@@ -38,14 +40,20 @@ class FollowersFragment : Fragment() {
         binding.rvUsersFollowers.adapter = adapter
         binding.rvUsersFollowers.setHasFixedSize(true)
         followerViewModel = ViewModelProvider(
-            this, FollowersViewModel.VMFactory(activity!!.applicationContext)
+            this, FollowersViewModel.VMFactory(requireActivity().applicationContext)
         ).get(FollowersViewModel::class.java)
 
-        val dataUser = activity!!.intent.getParcelableExtra<User>(EXTRA_DETAIL) as User
-        followerViewModel.getAllUserApi(dataUser.username.toString())
+        val mIntent = requireActivity().intent
+        if(mIntent.getStringExtra(DetailActivity.FROM_ACTIVITY) == "FavoriteActivity"){
+            val dataUser = mIntent.getParcelableExtra<Favorite>(EXTRA_DETAIL)
+            followerViewModel.getAllUserApi(dataUser!!.username.toString())
+        }else {
+            val dataUser = mIntent.getParcelableExtra<User>(EXTRA_DETAIL)
+            followerViewModel.getAllUserApi(dataUser!!.username.toString())
+        }
 
         showLoading(true)
-        followerViewModel.getListUsers().observe(activity!!, Observer { listUsers ->
+        followerViewModel.getListUsers().observe(requireActivity(), Observer { listUsers ->
             if (listUsers != null) {
                 adapter.setData(listUsers)
                 showLoading(false)

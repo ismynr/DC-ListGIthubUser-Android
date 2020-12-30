@@ -2,8 +2,10 @@ package com.ismynr.githubuserlist.view
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -35,8 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     // MENU OPTION
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.options_menu, menu)
+        menuInflater.inflate(R.menu.options_menu, menu)
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu!!.findItem(R.id.search).actionView as androidx.appcompat.widget.SearchView
@@ -56,7 +57,22 @@ class MainActivity : AppCompatActivity() {
                 if (query.isEmpty()) { mainViewModelSearch(); return true }
                 return false
             }
-        }); return true
+        })
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.favorite_menu -> {
+                val i = Intent(this, FavoriteActivity::class.java)
+                startActivity(i)
+                true
+            }
+            R.id.language_menu -> {
+                true
+            }
+            else -> false
+        }
     }
 
     private fun mainRecycleView(){
