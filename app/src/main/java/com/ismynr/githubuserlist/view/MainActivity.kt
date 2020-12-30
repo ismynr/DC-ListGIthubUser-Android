@@ -68,7 +68,9 @@ class MainActivity : AppCompatActivity() {
                 startActivity(i)
                 true
             }
-            R.id.language_menu -> {
+            R.id.settings_menu -> {
+                val i = Intent(this, SettingsActivity::class.java)
+                startActivity(i)
                 true
             }
             else -> false

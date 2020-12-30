@@ -12,7 +12,6 @@
     <string name="github_logo">Github Logo</string>
 
     <string name="search">Type Something and Enter</string>
-    <string name="language">Language Setting</string>
     <string name="location_desc">Location</string>
     <string name="company_desc">Company</string>
     <string name="repositories_desc">Repositories</string>
@@ -21,4 +20,8 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="favorite">Favorite</string>
+    <string name="settings">Settings</string>
+
+    <string name="daily_reminder">Daily Reminder</string>
+    <string name="daily_msg">Find your Favorite User on Github</string>
 </resources>
