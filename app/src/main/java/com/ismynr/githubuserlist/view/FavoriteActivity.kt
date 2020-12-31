@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.ismynr.githubuserlist.adapter.FavoriteAdapter
@@ -67,18 +68,15 @@ class FavoriteActivity : AppCompatActivity() {
             }
             val fav = deferredNotes.await()
             binding.loadingProgressFavorite.visibility = View.INVISIBLE
+
             if (fav.size > 0) {
-                Log.d("TAG", fav.toString())
                 favAdapter.listFav = fav
             } else {
                 favAdapter.listFav = ArrayList()
-                showSnackBarMessage("Tidak ada data saat ini")
+                binding.imgNoData.visibility = View.VISIBLE
+                Snackbar.make(binding.rvFavorite, "Data Does Not Exist", Snackbar.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun showSnackBarMessage(msg: String){
-        Snackbar.make(binding.rvFavorite, msg, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun mainRecycleView(){

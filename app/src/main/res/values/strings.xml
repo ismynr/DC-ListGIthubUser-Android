@@ -7,7 +7,6 @@
     <string name="following_100">%s Following</string>
     <string name="repositories_100">: %s</string>
     <string name="github_location">Github Location</string>
-    <string name="followers_following">Followers Following</string>
     <string name="aplikasi_github_user">APLIKASI GITHUB USER</string>
     <string name="github_logo">Github Logo</string>
 
@@ -18,10 +17,11 @@
     <string name="following">Following</string>
     <string name="followers">Followers</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="favorite">Favorite</string>
     <string name="settings">Settings</string>
 
     <string name="daily_reminder">Daily Reminder</string>
     <string name="daily_msg">Find your Favorite User on Github</string>
+    <string name="repository">Repository</string>
+    <string name="no_data">No Data</string>
 </resources>

@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                 favAdapter.listFav = fav
             } else {
                 favAdapter.listFav = ArrayList()
+                binding.imgNoData.visibility = View.VISIBLE
                 showSnackBarMessage("Tidak ada data saat ini")
             }
         }

@@ -46,12 +46,12 @@ class GithubRestNetwork(private val context: Context, private val client: AsyncH
 
     private fun getUrl(): String{
         return when(urlType){
-            "ALL"           -> getAbsoluteUrl("users?per_page=10")
-            "ALL_FOLLOWER"  -> getAbsoluteUrl("users/$username/followers?per_page=10")
-            "ALL_FOLLOWING" -> getAbsoluteUrl("users/$username/following?per_page=10")
+            "ALL"           -> getAbsoluteUrl("users?per_page=20")
+            "ALL_FOLLOWER"  -> getAbsoluteUrl("users/$username/followers?per_page=20")
+            "ALL_FOLLOWING" -> getAbsoluteUrl("users/$username/following?per_page=20")
             "DETAIL"        -> getAbsoluteUrl("users/$username")
-            "SEARCH"        -> getAbsoluteUrl("search/users?q=$username&per_page=3")
-            else            -> getAbsoluteUrl("users?per_page=10")
+            "SEARCH"        -> getAbsoluteUrl("search/users?q=$username&per_page=10")
+            else            -> getAbsoluteUrl("users?per_page=20")
         }
     }
 

@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ismynr.githubuserlist.adapter.FollowingAdapter
@@ -53,7 +52,7 @@ class FollowingFragment : Fragment() {
         }
 
         showLoading(true)
-        followingViewModel.getListUsers().observe(requireActivity(), Observer { listUsers ->
+        followingViewModel.getListUsers().observe(requireActivity(), { listUsers ->
             if (listUsers != null) {
                 adapter.setData(listUsers)
                 showLoading(false)
