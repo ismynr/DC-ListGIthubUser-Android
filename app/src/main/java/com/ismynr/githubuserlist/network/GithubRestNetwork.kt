@@ -15,7 +15,7 @@ class GithubRestNetwork(private val context: Context, private val client: AsyncH
     }
 
     init{
-        client.addHeader("Authorization", "token 5a96c6013a5aa9c4b145c92d2630d42b43401885")
+        client.addHeader("Authorization", "token 75bb48650a732361e10b36eff442696a03188fc4")
         client.addHeader("User-Agent", "request")
     }
 

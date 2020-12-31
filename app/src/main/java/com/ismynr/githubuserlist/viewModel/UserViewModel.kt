@@ -1,10 +1,12 @@
 package com.ismynr.githubuserlist.viewModel
 
 import android.content.Context
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.ismynr.githubuserlist.db.UserFavHelper
 import com.ismynr.githubuserlist.model.User
 import com.ismynr.githubuserlist.network.GithubRestNetwork
 import com.loopj.android.http.AsyncHttpClient
@@ -17,6 +19,8 @@ class UserViewModel(context: Context) : ViewModel(){
     private val listMutableUsers = MutableLiveData<ArrayList<User>>()
     private val listUsers = ArrayList<User>()
     private val githubRest: GithubRestNetwork = GithubRestNetwork(context, AsyncHttpClient())
+    private var userFavHelper: UserFavHelper = UserFavHelper.getInstance(context)
+    private lateinit var cursor: Cursor
 
     fun getListUsers(): LiveData<ArrayList<User>> {
         return listMutableUsers
@@ -68,6 +72,22 @@ class UserViewModel(context: Context) : ViewModel(){
                     listMutableUsers.postValue(listUsers)
             }
         }, usernameLogin)
+    }
+
+    fun checkDbById(user: User?, listener: RequestListener){
+        userFavHelper.open()
+        cursor = userFavHelper.queryById(user?.username.toString())
+        if (cursor.moveToNext()) {
+            listener.cursorMoveToNext()
+        }
+    }
+
+    fun deleteDbById(user: User?){
+        userFavHelper.deleteBy(user?.username.toString())
+    }
+
+    interface RequestListener{
+        fun cursorMoveToNext()
     }
 
     // VIEW MODEL WITH ARGUMENT

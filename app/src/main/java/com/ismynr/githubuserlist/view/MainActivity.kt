@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         userViewModel = ViewModelProvider(this, UserViewModel.VMFactory(applicationContext)).get(UserViewModel::class.java)
         showLoading(true)
         userViewModel.getAllUserApi()
-        userViewModel.getListUsers().observe(this, Observer { listUsers ->
+        userViewModel.getListUsers().observe(this, { listUsers ->
             if (listUsers != null) {
                 userAdapter.setData(listUsers)
                 showLoading(false)
