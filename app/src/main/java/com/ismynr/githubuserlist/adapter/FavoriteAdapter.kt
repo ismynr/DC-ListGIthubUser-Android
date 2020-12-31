@@ -34,7 +34,6 @@ class FavoriteAdapter: RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>(
         val data = listFav[position]
         holder.itemView.setOnClickListener {
             val mIntent = Intent(it.context, DetailActivity::class.java)
-//            Log.d("START", it.context.javaClass.simpleName)
             mIntent.putExtra(DetailActivity.FROM_ACTIVITY, it.context.javaClass.simpleName)
             mIntent.putExtra(DetailActivity.EXTRA_DETAIL, data)
             it.context.startActivity(mIntent)
